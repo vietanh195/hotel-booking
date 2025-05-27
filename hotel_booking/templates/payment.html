@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Payment</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'room_list' %}">Rooms</a> |
+            <a href="{% url 'booking_history' %}">Booking History</a> |
+            {% if user.is_authenticated %}
+                <span>Hi, {{ user.username }}</span>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        <h1>Payment</h1>
+
+        <form method="post" action="{% url 'process_payment' booking.id %}">
+            {% csrf_token %}
+            <div>
+                <label>Booking ID:</label> {{ booking.id }}
+            </div>
+            <div>
+                <label>Guest Name:</label> {{ booking.guest_name }}
+            </div>
+            <div>
+                <label>Room:</label> {{ booking.room.name }} - {{ booking.hotel.name }}
+            </div>
+            <div>
+                <label>Check-in:</label> {{ booking.check_in }}
+            </div>
+            <div>
+                <label>Check-out:</label> {{ booking.check_out }}
+            </div>
+            <div>
+                <label>Total Price:</label> {{ booking.total_price }} đ
+            </div>
+
+            <div>
+                <label>Credit Card Number:</label>
+                <input type="text" name="card_number" required />
+            </div>
+            <div>
+                <label>Expiration Date:</label>
+                <input type="month" name="expiration_date" required />
+            </div>
+            <div>
+                <label>CVV:</label>
+                <input type="text" name="cvv" required />
+            </div>
+
+            <button type="submit">Pay Now</button>
+        </form>
+
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </main>
+</body>
+</html>
