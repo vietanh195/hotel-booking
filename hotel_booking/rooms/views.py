@@ -1,14 +1,14 @@
 from django.shortcuts import render
-from .models import Room, District
+from .models import Loaiphong, Quanhuyen, Khachsan, Diadiem
 from .forms import RoomFilterForm
 
 def room_list(request):
-    rooms = Room.objects.all()
+    rooms = Loaiphong.objects.all()
     form = RoomFilterForm(request.GET or None)
 
     if form.is_valid():
         if form.cleaned_data['district']:
-            rooms = rooms.filter(hotel__district=form.cleaned_data['district'])
+            rooms = rooms.filter(khachsankhachsan__quanhuyenquanhuyen__tenquanhuyen="Cau Giay")
         
         price_range = form.cleaned_data['price_range']
         if price_range:
@@ -44,3 +44,6 @@ def room_list(request):
         'room_count': rooms.count(),
     }
     return render(request, 'room_list.html', context)
+
+# def room_list(request):
+#     return render(request, 'room_list.html')
