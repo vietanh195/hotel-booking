@@ -1,5 +1,5 @@
 from django import forms
-from .models import District
+from .models import Quanhuyen
 
 class RoomFilterForm(forms.Form):
     PRICE_RANGES = (
@@ -22,7 +22,7 @@ class RoomFilterForm(forms.Form):
     )
 
     district = forms.ModelChoiceField(
-        queryset=District.objects.all(),
+        queryset=Quanhuyen.objects.all(),
         required=False,
         empty_label="All Districts",
         widget=forms.RadioSelect(attrs={'class': 'form-radio text-blue-600'})
