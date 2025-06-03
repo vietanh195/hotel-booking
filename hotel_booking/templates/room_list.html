@@ -24,15 +24,6 @@
                 </div>
                 <button type="submit" class="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300" style="margin-top:10px">Find</button>
             </form>
-                <!--<div class="relative">
-                    <select class="appearance-none w-32 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 pr-8">
-                        <option>Districts</option>
-                        {% for district in form.district %}
-                            <option value="{{ district.quanhuyen_id }}">{{ district.tenquanhuyen }}</option>
-                        {% endfor %}
-                    </select>
-                    <span class="absolute right-3 top-2.5 text-gray-400">▼</span>
-                </div>-->
             </div>
             <button class="w-8 h-8 bg-gray-300 rounded-full border border-gray-300 flex items-center justify-center"></button>
         </header>
@@ -114,7 +105,7 @@
                                         <p class="text-lg font-bold">{{ room.gia }} đ</p>
                                         <p class="text-sm text-gray-500">per night</p>
                                     </div>
-                                    <a href="{% url 'booking_detail' room.id %}" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">View Room</a>
+                                    <a href="#" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">View Room</a>
                                 </div>
                             </div>
                         </div>

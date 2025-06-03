@@ -20,13 +20,6 @@ class RoomFilterForm(forms.Form):
         ('2', '2 Beds'),
         ('3+', '3+ Beds'),
     )
-
-    district = forms.ModelChoiceField(
-        queryset=Quanhuyen.objects.all(),
-        required=False,
-        empty_label="All Districts",
-        widget=forms.RadioSelect(attrs={'class': 'form-radio text-blue-600'})
-    )
     
     price_range = forms.ChoiceField(
         choices=PRICE_RANGES,

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Loaiphong, Quanhuyen, Khachsan, Diadiem
+from .models import Loaiphong, Dondatphong
 from .forms import RoomFilterForm
 
 def room_list(request):
@@ -7,12 +7,13 @@ def room_list(request):
     form = RoomFilterForm(request.GET or None)
 
     if (request.method == "POST") and (request.POST.get("locate")!="") :
-        rooms = rooms.filter(khachsankhachsan__quanhuyenquanhuyen__diadiemdiadiem__tendiadiem= request.POST.get("locate"))
+        locate = request.POST.get("locate")
+        both_locate = [x.strip() for x in locate.split(',')]
+        rooms = rooms.filter(khachsankhachsan__quanhuyenquanhuyen__diadiemdiadiem__tendiadiem= both_locate[0])
+        if len(both_locate) > 1:
+            rooms = rooms.filter(khachsankhachsan__quanhuyenquanhuyen__tenquanhuyen= both_locate[1])
 
     if form.is_valid():
-        # if form.cleaned_data['district']:
-        #     rooms = rooms.filter(khachsankhachsan__quanhuyenquanhuyen__tenquanhuyen=form.cleaned_data['district'])
-        
         price_range = form.cleaned_data['price_range']
         if price_range:
             if price_range == 'under_1000000':
@@ -48,5 +49,6 @@ def room_list(request):
     }
     return render(request, 'room_list.html', context)
 
-# def room_list(request):
-#     return render(request, 'room_list.html')
+def booking_history(request):
+    book_hist = Dondatphong.objects.filter(nguoidungnguoidung="ND001")
+    return render(request, "booking_history.html", {"bookings": book_hist})

@@ -9,14 +9,14 @@
 <body>
     <header>
         <nav>
-            <a href="{% url 'room_list' %}">Rooms</a> |
+            {% comment %} <a href="{% url 'room_list' %}">Rooms</a> |
             <a href="{% url 'booking_history' %}">Booking History</a> |
             {% if user.is_authenticated %}
                 <span>Hi, {{ user.username }}</span>
                 <a href="{% url 'logout' %}">Logout</a>
             {% else %}
                 <a href="{% url 'login' %}">Login</a>
-            {% endif %}
+            {% endif %} {% endcomment %}
         </nav>
     </header>
 
@@ -40,14 +40,14 @@
                 <tbody>
                     {% for booking in bookings %}
                         <tr>
-                            <td>{{ booking.id }}</td>
-                            <td>{{ booking.hotel.name }}</td>
-                            <td>{{ booking.room.name }}</td>
-                            <td>{{ booking.check_in }}</td>
-                            <td>{{ booking.check_out }}</td>
-                            <td>{{ booking.get_status_display }}</td>
-                            <td>{{ booking.total_price }} đ</td>
-                            <td><a href="{% url 'booking_detail' booking.id %}">View</a></td>
+                            <td>{{ booking.lichsu_id }}</td>
+                            <td>{{ booking.phongphong.khachsankhachsan.tenkhachsan }}</td>
+                            <td>{{ booking.phongphong.tenphong }}</td>
+                            <td>{{ booking.ngaydat }}</td>
+                            <td>{{ booking.ngaytra }}</td>
+                            <td>{{ booking.trangthai }}</td>
+                            <td>{{ booking.tongtien }} đ</td>
+                            {% comment %} <td><a href="{% url 'booking_detail' booking.id %}">View</a></td> {% endcomment %}
                         </tr>
                     {% endfor %}
                 </tbody>
