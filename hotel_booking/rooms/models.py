@@ -16,6 +16,9 @@ class Diadiem(models.Model):
         managed = False
         db_table = 'DiaDiem'
 
+    def __str__(self):
+        return self.tendiadiem
+
 
 class Dondatphong(models.Model):
     lichsu_id = models.CharField(primary_key=True, max_length=20, db_collation='SQL_Latin1_General_CP1_CI_AS')
@@ -53,6 +56,9 @@ class Khachsan(models.Model):
         managed = False
         db_table = 'KhachSan'
 
+    def __str__(self):
+        return self.tenkhachsan
+
 
 class Loaiphong(models.Model):
     phong_id = models.CharField(primary_key=True, max_length=20, db_collation='SQL_Latin1_General_CP1_CI_AS')
@@ -66,6 +72,9 @@ class Loaiphong(models.Model):
     class Meta:
         managed = False
         db_table = 'LoaiPhong'
+
+    def __str__(self):
+        return self.tenphong
 
 
 class Nguoidung(models.Model):
@@ -90,6 +99,9 @@ class Quanhuyen(models.Model):
     class Meta:
         managed = False
         db_table = 'QuanHuyen'
+
+    def __str__(self):
+        return self.tenquanhuyen
 
 
 class Sysdiagrams(models.Model):
