@@ -23,8 +23,5 @@ Thumbs.db
 *.swo
 *~
 
-# Ignore database
-*.sql
-
 *.venv
 *venv
