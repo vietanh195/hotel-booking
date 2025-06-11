@@ -8,7 +8,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib import messages
-from django.contrib.auth.hashers import make_password
 import uuid
 
 from .models import Nguoidung
@@ -35,7 +34,7 @@ def signup_view(request):
             nguoidung_id=nguoidung_id,
             tennguoidung=fullname,
             email=email,
-            matkhau=make_password(password),
+            matkhau=password,
             dienthoai=phone,
             vaitro='user',
             ngaytaotk=timezone.now().date()
