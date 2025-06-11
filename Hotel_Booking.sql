@@ -8,13 +8,13 @@ GO
 -- Bảng DiaDiem
 CREATE TABLE DiaDiem (
     diadiem_id VARCHAR(20) PRIMARY KEY,
-    tenDiaDiem VARCHAR(100)
+    tenDiaDiem NVARCHAR(100)
 );
 
 -- Bảng QuanHuyen
 CREATE TABLE QuanHuyen (
     quanhuyen_id VARCHAR(20) PRIMARY KEY,
-    tenQuanHuyen VARCHAR(100),
+    tenQuanHuyen NVARCHAR(100),
     DiaDiemdiadiem_id VARCHAR(20)
 	FOREIGN KEY (DiaDiemdiadiem_id) REFERENCES DiaDiem(diadiem_id)
 );
@@ -22,8 +22,8 @@ CREATE TABLE QuanHuyen (
 -- Bảng KhachSan
 CREATE TABLE KhachSan (
     khachsan_id VARCHAR(20) PRIMARY KEY,
-    tenKhachSan VARCHAR(200),
-    moTa VARCHAR(1000),
+    tenKhachSan NVARCHAR(200),
+    moTa NVARCHAR(1000),
     ngayThem DATE,
     QuanHuyenquanhuyen_id VARCHAR(20), -- Khóa ngoại tham chiếu đến bảng DiaDiem
     FOREIGN KEY (QuanHuyenquanhuyen_id) REFERENCES QuanHuyen(quanhuyen_id)
@@ -74,6 +74,15 @@ CREATE TABLE DonDatPhong (
     FOREIGN KEY (Phongphong_id) REFERENCES LoaiPhong(phong_id)
 );
 
+-- Xóa bảng
+DROP TABLE DonDatPhong;
+DROP TABLE HinhAnh;
+DROP TABLE LoaiPhong;
+DROP TABLE KhachSan;
+DROP TABLE QuanHuyen;
+DROP TABLE DiaDiem;
+DROP TABLE NguoiDung;
+
 -- Xóa dữ liệu trong bảng DonDatPhong
 DELETE FROM DonDatPhong;
 
@@ -95,34 +104,35 @@ DELETE FROM DiaDiem;
 -- Xóa bảng NguoiDung (không có phụ thuộc ngoài DonDatPhong đã xóa ở trên)
 DELETE FROM NguoiDung;
 
+
 -- Dữ liệu mẫu cho bảng DiaDiem
 INSERT INTO DiaDiem VALUES
-('DD01', 'Hà Nội'),
-('DD02', 'Đà Nẵng'),
-('DD03', 'TP. Hồ Chí Minh');
+('DD01', N'Hà Nội'),
+('DD02', N'Đà Nẵng'),
+('DD03', N'TP. Hồ Chí Minh');
 
 
 -- Dữ liệu mẫu cho bảng QuanHuyen
 -- Hà Nội
 INSERT INTO QuanHuyen VALUES
-('QH01', 'Hoàn Kiếm', 'DD01'),
-('QH02', 'Ba Đình', 'DD01'),
+('QH01', N'Hoàn Kiếm', 'DD01'),
+('QH02', N'Ba Đình', 'DD01'),
 -- Đà Nẵng
-('QH03', 'Hải Châu', 'DD02'),
-('QH04', 'Ngũ Hành Sơn', 'DD02'),
+('QH03', N'Hải Châu', 'DD02'),
+('QH04', N'Ngũ Hành Sơn', 'DD02'),
 -- TP.HCM
-('QH05', 'Quận 1', 'DD03'),
-('QH06', 'Quận 3', 'DD03');
+('QH05', N'Quận 1', 'DD03'),
+('QH06', N'Quận 3', 'DD03');
 
 
 -- Dữ liệu mẫu cho bảng KhachSan
 INSERT INTO KhachSan VALUES
-('KS01', 'The Royal Lotus', '123 Phố Huế, Hoàn Kiếm, Hà Nội', '2025-06-01', 'QH01'),
-('KS02', 'Emerald Palace', '45 Kim Mã, Ba Đình, Hà Nội', '2025-06-01', 'QH02'),
-('KS03', 'Sunset Boutique', '88 Bạch Đằng, Hải Châu, Đà Nẵng', '2025-06-01', 'QH03'),
-('KS04', 'Ocean Serenity', '12 Trường Sa, Ngũ Hành Sơn, Đà Nẵng', '2025-06-01', 'QH04'),
-('KS05', 'Golden Orchid', '159 Lý Tự Trọng, Quận 1, TP. HCM', '2025-06-01', 'QH05'),
-('KS06', 'Crystal Grand', '77 Nguyễn Đình Chiểu, Quận 3, TP. HCM', '2025-06-01', 'QH06');
+('KS01', 'The Royal Lotus', N'123 Phố Huế, Hoàn Kiếm, Hà Nội', '2025-06-01', 'QH01'),
+('KS02', 'Emerald Palace', N'45 Kim Mã, Ba Đình, Hà Nội', '2025-06-01', 'QH02'),
+('KS03', 'Sunset Boutique', N'88 Bạch Đằng, Hải Châu, Đà Nẵng', '2025-06-01', 'QH03'),
+('KS04', 'Ocean Serenity', N'12 Trường Sa, Ngũ Hành Sơn, Đà Nẵng', '2025-06-01', 'QH04'),
+('KS05', 'Golden Orchid', N'159 Lý Tự Trọng, Quận 1, TP. HCM', '2025-06-01', 'QH05'),
+('KS06', 'Crystal Grand', N'77 Nguyễn Đình Chiểu, Quận 3, TP. HCM', '2025-06-01', 'QH06');
 
 
 -- Dữ liệu mẫu cho bảng LoaiPhong
