@@ -97,30 +97,33 @@ DELETE FROM NguoiDung;
 
 -- Dữ liệu mẫu cho bảng DiaDiem
 INSERT INTO DiaDiem VALUES
-('DD01', 'Ha Noi'),
-('DD02', 'Da Nang'),
-('DD03', 'TP Ho Chi Minh');
+('DD01', 'Hà Nội'),
+('DD02', 'Đà Nẵng'),
+('DD03', 'TP. Hồ Chí Minh');
+
 
 -- Dữ liệu mẫu cho bảng QuanHuyen
-INSERT INTO QuanHuyen VALUES
 -- Hà Nội
-('QH01', 'Hoan Kiem', 'DD01'),
-('QH02', 'Ba Dinh', 'DD01'),
+INSERT INTO QuanHuyen VALUES
+('QH01', 'Hoàn Kiếm', 'DD01'),
+('QH02', 'Ba Đình', 'DD01'),
 -- Đà Nẵng
-('QH03', 'Hai Chau', 'DD02'),
-('QH04', 'Ngu Hanh Son', 'DD02'),
+('QH03', 'Hải Châu', 'DD02'),
+('QH04', 'Ngũ Hành Sơn', 'DD02'),
 -- TP.HCM
-('QH05', 'Quan 1', 'DD03'),
-('QH06', 'Quan 3', 'DD03');
+('QH05', 'Quận 1', 'DD03'),
+('QH06', 'Quận 3', 'DD03');
+
 
 -- Dữ liệu mẫu cho bảng KhachSan
 INSERT INTO KhachSan VALUES
-('KS01', 'The Royal Lotus', 'A luxury hotel in the center of Hanoi.', '2025-06-01', 'QH01'),
-('KS02', 'Emerald Palace', 'Elegant and modern hotel.', '2025-06-01', 'QH02'),
-('KS03', 'Sunset Boutique', 'Romantic beachfront hotel.', '2025-06-01', 'QH03'),
-('KS04', 'Ocean Serenity', 'High-end resort with sea view.', '2025-06-01', 'QH04'),
-('KS05', 'Golden Orchid', 'Luxury and comfort in the city.', '2025-06-01', 'QH05'),
-('KS06', 'Crystal Grand', 'Modern design with classic service.', '2025-06-01', 'QH06');
+('KS01', 'The Royal Lotus', '123 Phố Huế, Hoàn Kiếm, Hà Nội', '2025-06-01', 'QH01'),
+('KS02', 'Emerald Palace', '45 Kim Mã, Ba Đình, Hà Nội', '2025-06-01', 'QH02'),
+('KS03', 'Sunset Boutique', '88 Bạch Đằng, Hải Châu, Đà Nẵng', '2025-06-01', 'QH03'),
+('KS04', 'Ocean Serenity', '12 Trường Sa, Ngũ Hành Sơn, Đà Nẵng', '2025-06-01', 'QH04'),
+('KS05', 'Golden Orchid', '159 Lý Tự Trọng, Quận 1, TP. HCM', '2025-06-01', 'QH05'),
+('KS06', 'Crystal Grand', '77 Nguyễn Đình Chiểu, Quận 3, TP. HCM', '2025-06-01', 'QH06');
+
 
 -- Dữ liệu mẫu cho bảng LoaiPhong
 -- KS01: The Royal Lotus
