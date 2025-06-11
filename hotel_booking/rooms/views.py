@@ -116,3 +116,12 @@ def room_detail(request, room_id):
         'nights': nights,
     }
     return render(request, 'room_detail.html', context)
+
+def display_about(request):
+    return render(request, "footer/about_us.html")
+
+def display_contact(request):
+    return render(request, "footer/contact.html")
+
+def display_services(request):
+    return render(request, "footer/services.html")

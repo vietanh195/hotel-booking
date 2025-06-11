@@ -81,8 +81,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'Hotel_Booking',
-        'HOST': 'DESKTOP-4S31TPI\SQLEXPRESS',
-        'PORT': '',
+        'USER': 'vanh',
+        'PASSWORD': '12345',
+        'HOST': 'localhost',
+        'PORT': '1433',
         'OPTIONS':{
             'driver': 'ODBC Driver 17 for SQL Server',
         }

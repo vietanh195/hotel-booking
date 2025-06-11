@@ -1,6 +1,7 @@
 # Ignore thư mục ảo hóa của Python
 myenv-hotel
 .env/
+hotel-env
 
 # Ignore các file biên dịch của Python
 __pycache__/

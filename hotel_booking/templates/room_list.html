@@ -191,9 +191,9 @@
             <div class="md:w-1/3">
                 <h3 class="text-xl font-semibold mb-4 text-gray-900">Liên kết nhanh</h3>
                 <ul class="text-sm text-gray-600">
-                <li><a href="#" class="hover:text-gray-900 transition-colors duration-300">Giới thiệu</a></li>
-                <li><a href="#" class="hover:text-gray-900 transition-colors duration-300">Dịch vụ</a></li>
-                <li><a href="#" class="hover:text-gray-900 transition-colors duration-300">Liên hệ</a></li>
+                <li><a href="{% url "rooms:display_about" %}" class="hover:text-gray-900 transition-colors duration-300">Giới thiệu</a></li>
+                <li><a href="{% url "rooms:display_services" %}" class="hover:text-gray-900 transition-colors duration-300">Dịch vụ</a></li>
+                <li><a href="{% url "rooms:display_contact" %}" class="hover:text-gray-900 transition-colors duration-300">Liên hệ</a></li>
                 </ul>
             </div>
 
