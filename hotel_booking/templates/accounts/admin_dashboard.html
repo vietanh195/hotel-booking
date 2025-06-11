@@ -9,7 +9,7 @@
     <body class="bg-gray-100">
             <!-- Header -->
         <header class="bg-gray-900 mb-4 flex items-center justify-between px-16 py-5">
-            <a href="{% url 'rooms:room_list' %}" class="text-2xl font-bold text-white">Trang quản trị</a>
+            <a class="text-2xl font-bold text-white">Trang quản trị</a>
 
             <!-- Right -->
             <div class="relative">
@@ -20,7 +20,7 @@
                 </button>
 
                 <!-- Dropdown menu -->
-                <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-50">
+                <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-50 overflow-hidden">
                 <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Đăng xuất</a>
                 </div>
                 {% else %}
@@ -165,12 +165,14 @@
                                     <th class="border px-3 py-2 bg-gray-200">{{ f|capfirst }}</th>
                                 {% endfor %}
                             {% endif %}
-                            <th class="border px-3 py-2 bg-gray-200">Hành động</th>
+                            <th class="border px-3 py-2 bg-gray-200"></th>
+                            <th class="border px-3 py-2 bg-gray-200"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for obj in objects %}
                         <tr class="border-t">
+                            <!-- Form Lưu -->
                             <form method="post" action="{% url 'accounts:admin_dashboard' %}?model={{ model_name }}">
                                 {% csrf_token %}
                                 {% if model_name == "diadiem" %}
@@ -189,7 +191,7 @@
                                 {% elif model_name == "loaiphong" %}
                                     <td class="border px-3 py-2"><input name="phong_id" value="{{ obj.phong_id }}" class="w-full border rounded px-2 py-1"></td>
                                     <td class="border px-3 py-2"><input name="tenphong" value="{{ obj.tenphong }}" class="w-full border rounded px-2 py-1"></td>
-                                    <td class="border px-3 py-2"><input name="sogiuong" value="{{ obj.sogiuong }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="sogiuong" value="{{ obj.sogiuong }}" class="w-full border rounded px- personally-2 py-1"></td>
                                     <td class="border px-3 py-2"><input name="gia" value="{{ obj.gia }}" class="w-full border rounded px-2 py-1"></td>
                                     <td class="border px-3 py-2"><input name="mota" value="{{ obj.mota }}" class="w-full border rounded px-2 py-1"></td>
                                     <td class="border px-3 py-2"><input name="ngaythemphong" value="{{ obj.ngaythemphong }}" class="w-full border rounded px-2 py-1"></td>
@@ -216,15 +218,19 @@
                                     <td class="border px-3 py-2"><input name="vaitro" value="{{ obj.vaitro }}" class="w-full border rounded px-2 py-1"></td>
                                     <td class="border px-3 py-2"><input name="ngaytaotk" value="{{ obj.ngaytaotk }}" class="w-full border rounded px-2 py-1"></td>
                                 {% endif %}
-
-                                <td class="border px-3 py-2 flex items-center gap-2">
+                                <td class="border px-3 py-2">
                                     <input type="hidden" name="pk" value="{{ obj.pk }}">
                                     <button type="submit" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Lưu</button>
+                                </td>
+                            </form>
+                            <!-- Form Xóa -->
+                            <td class="border px-3 py-2">
+                                <form method="post" action="{% url 'accounts:admin_dashboard' %}?model={{ model_name }}">
                                     {% csrf_token %}
                                     <input type="hidden" name="delete" value="{{ obj.pk }}">
                                     <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600" onclick="return confirm('Xóa?')">Xóa</button>
-                                </td>
-                            </form>
+                                </form>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -251,5 +257,26 @@
                 }
             });
         </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+        {% if messages %}
+            <div class="fixed top-4 right-4 space-y-2 z-50">
+            {% for message in messages %}
+                <div class="text-sm font-medium px-4 py-2 rounded-md shadow-lg
+                {% if message.tags == 'success' %}
+                    bg-green-100 text-green-800
+                {% elif message.tags == 'error' %}
+                    bg-red-100 text-red-800
+                {% endif %}"
+                x-data="{ show: true }" 
+                x-show="show" 
+                x-transition
+                x-init="setTimeout(() => show = false, 3000)">
+                {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
     </body>
 </html>

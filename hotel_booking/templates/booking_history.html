@@ -22,7 +22,7 @@
             <i class="fas fa-user text-gray-600"></i>
 
             <!-- Dropdown menu -->
-            <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-50 text-gray-600">
+            <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-50 text-gray-600 overflow-hidden">
             <a href="{% url 'accounts:user_profile' %}" class="block px-4 py-2 hover:bg-gray-100">Thông tin cá nhân</a>
             <a href="{% url 'bookings:booking_history' %}" class="block px-4 py-2 hover:bg-gray-100">Lịch sử đặt phòng</a>
             <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Đăng xuất</a>
@@ -156,5 +156,25 @@
         });
     </script>
 
+      <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    {% if messages %}
+        <div class="fixed top-4 right-4 space-y-2 z-50">
+        {% for message in messages %}
+            <div class="text-sm font-medium px-4 py-2 rounded-md shadow-lg
+            {% if message.tags == 'success' %}
+                bg-green-100 text-green-800
+            {% elif message.tags == 'error' %}
+                bg-red-100 text-red-800
+            {% endif %}"
+            x-data="{ show: true }" 
+            x-show="show" 
+            x-transition
+            x-init="setTimeout(() => show = false, 3000)">
+            {{ message }}
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
 </body>
 </html>

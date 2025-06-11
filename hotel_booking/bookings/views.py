@@ -118,7 +118,7 @@ def confirm_booking(request):
                 ngaydat=checkin_date,
                 ngaytra=checkout_date,
                 tongtien=total,
-                trangthai='Đã thanh toán',
+                trangthai='Da dat',
                 thoigiandat=date.today(),
                 nguoidung=user,
                 phongphong=phong

@@ -170,24 +170,24 @@ INSERT INTO LoaiPhong VALUES
 
 -- Dữ liệu mẫu cho bảng HinhAnh
 INSERT INTO HinhAnh VALUES
-('IMG01', 'https://ik.imagekit.io/tvlk/generic-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20012109-4a2f4dbcd1a608dcbd060ebd0b2ff368.jpeg?_src=imagekit&tr=dpr-2,c-at_max,f-jpg,fo-auto,h-222,pr-true,q-40,w-320', 'P001'),
-('IMG02', 'https://ik.imagekit.io/tvlk/generic-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20056907-d09e59a47d85b2c72228980cb3fa51a2.jpeg?_src=imagekit&tr=dpr-2,f-jpg,fo-auto,h-222,pr-true,q-40,w-320', 'P002'),
+('IMG01', 'https://anviethouse.vn/wp-content/uploads/2021/12/Thiet-ke-phong-ngu-khach-san-sang-trong-2-2.jpg', 'P001'),
+('IMG02', 'https://anviethouse.vn/wp-content/uploads/2022/01/thiet-ke-phong-khach-san-5-sao_2-giuong-1.jpg', 'P002'),
 ('IMG03', 'https://ik.imagekit.io/tvlk/generic-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20012109-e835a504776df3d229ac83120e0cffda.jpeg?_src=imagekit&tr=dpr-2,c-at_max,f-jpg,h-460,pr-true,q-40,w-724', 'P003'),
 ('IMG04', 'https://www.hoteljob.vn/files/Anh-Hoteljob-Ni/Nam-2021/Thang-3/Cac-lo%E1%BA%A1i-phong-khach-san-02.jpg', 'P004'),
-('IMG05', 'https://ik.imagekit.io/tvlk/generic-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20056907-d22d48fb1b70a4640783630d4942d052.jpeg?_src=imagekit&tr=dpr-2,f-jpg,fo-auto,h-222,pr-true,q-40,w-320', 'P005'),
-('IMG06', 'https://ik.imagekit.io/tvlk/generic-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/10025445-0d0526740b42fe53c506cf1228ffca7f.jpeg?_src=imagekit&tr=dpr-2,c-at_max,f-jpg,fo-auto,h-222,pr-true,q-40,w-320', 'P006'),
-('IMG07', 'https://phuchoa.com.vn/wp-content/uploads/2021/04/cac-loai-phong-trong-khach-san-5-sao.jpg', 'P007'),
-('IMG08', 'https://ik.imagekit.io/tvlk/generic-asset/rvN7CENfvyT2YVqT-7R6UjRIibYDnsWI+-nAv8mJ7GI=/79379/photos/68777530_XL.jpg?_src=imagekit&tr=dpr-2,c-at_max,f-jpg,h-460,pr-true,q-40,w-724', 'P008'),
+('IMG05', 'https://krass.vn/wp-content/uploads/2024/03/mau-giuong-don-khach-san-5-sao-dep.jpg', 'P005'),
+('IMG06', 'https://noithatminhkhoi.com/upload/images/tieu-chuan-giuong-ngu-dep-cho-khach-san-5-sao.jpg', 'P006'),
+('IMG07', 'https://img.homedy.com/store/images/2020/04/16/phong-ngu-khach-san-5-sao-9-637226036786137900.jpg', 'P007'),
+('IMG08', 'https://saomaihotel.com.vn/wp-content/uploads/2024/02/cca54162cd9560cb3984.jpg', 'P008'),
 ('IMG09', 'https://ik.imagekit.io/tvlk/generic-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/10019241-1600x1200-FIT_AND_TRIM-0bb1a9dbb2930b930cc2fe125d7ffac3.jpeg?_src=imagekit&tr=dpr-2,c-at_max,f-jpg,h-460,pr-true,q-40,w-724', 'P009'),
-('IMG10', 'https://anviethouse.vn/wp-content/uploads/2021/12/Thiet-ke-phong-ngu-khach-san-sang-trong-2-2.jpg', 'P010'),
+('IMG10', 'https://dyf.vn/wp-content/uploads/2021/11/noi-that-khach-san-5-sao-19.jpg', 'P010'),
 ('IMG11', 'https://krass.vn/wp-content/uploads/2024/03/mau-giuong-don-khach-san-5-sao-dep.jpg', 'P011'),
-('IMG12', 'https://chefjob.vn/wp-content/uploads/2020/07/tieng-anh-loai-phong-khach-san.jpg', 'P012'),
+('IMG12', 'https://sayhi.vn/wp-content/uploads/2019/01/2190907_17080416040054901823-min.jpg', 'P012'),
 ('IMG13', 'https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/86/2018/12/18031433/deluxe-king-bed-room-cottage-at-pullman-danang-beach-resort-vietnam-5-star-hotel.jpg', 'P013'),
 ('IMG14', 'https://acihome.vn/uploads/15/mau-thiet-ke-noi-that-phong-2-giuong-don-ben-trong-khach-san-3-4-5-sao-4.jpg', 'P014'),
-('IMG15', 'https://acihome.com.vn/uploads/17/nhung-mau-giuong-khach-san-5-sao-dep-va-sang.jpg', 'P015'),
-('IMG16', 'https://phuchoa.com.vn/wp-content/uploads/2021/04/phong-deluxe.jpg', 'P016'),
-('IMG17', 'https://chefjob.vn/wp-content/uploads/2017/11/cac-loai-giuong-trong-khach-san.jpg', 'P017'),
-('IMG18', 'https://noithatminhkhoi.com/upload/images/tieu-chuan-giuong-ngu-dep-cho-khach-san-5-sao.jpg', 'P018');
+('IMG15', 'https://saomaihotel.com.vn/wp-content/uploads/2024/02/885b8bfa000dad53f41c.jpg', 'P015'),
+('IMG16', 'https://img.homedy.com/store/images/2020/04/16/phong-ngu-khach-san-5-sao-1-637226034544698696.jpg', 'P016'),
+('IMG17', 'https://ik.imagekit.io/tvlk/blog/2025/03/cac-loai-phong-khach-san-5-sao-01.jpg?tr=q-70,c-at_max,w-500,h-300,dpr-2', 'P017'),
+('IMG18', 'https://canaryhanoihotel.vn/wp-content/uploads/2019/06/aPX_03411.jpg', 'P018');
 
 -- Dữ liệu mẫu cho bảng NguoiDung
 INSERT INTO NguoiDung VALUES
