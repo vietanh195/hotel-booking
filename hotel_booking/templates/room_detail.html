@@ -1,0 +1,287 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt phòng khách sạn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class=" ">
+    <!-- Header -->
+    <header class="bg-gray-900 mb-4 flex items-center justify-between px-16 py-5">
+        <a href="{% url 'rooms:room_list' %}" class="text-2xl font-bold text-white">Bokin</a>
+
+        <!-- Right -->
+        <div class="relative">
+            {% if is_logged_in %}
+            <!-- Avatar button -->
+            <button id="avatarBtn" class="w-10 h-10 rounded-full border border-gray-600 overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-200 hover:bg-gray-700">
+            <i class="fas fa-user"></i>
+            </button>
+
+            <!-- Dropdown menu -->
+            <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-50">
+            <a href="{% url 'accounts:user_profile' %}" class="block px-4 py-2 hover:bg-gray-100">Thông tin cá nhân</a>
+            <a href="{% url 'bookings:booking_history' %}" class="block px-4 py-2 hover:bg-gray-100">Lịch sử đặt phòng</a>
+            <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Đăng xuất</a>
+            </div>
+            {% else %}
+            <!-- Đăng nhập / Đăng ký -->
+            <div class="flex space-x-4">
+            <a href="{% url 'accounts:login' %}" class="px-4 py-2 border border-gray-600 rounded text-gray-200 hover:bg-gray-700 hover:border-gray-500 transition">Đăng nhập</a>
+            <a href="{% url 'accounts:signup' %}" class="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 transition">Đăng ký</a>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto bg-white overflow-hidden px-16">
+        <div class="py-6 border-b border-gray-200 relative">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ room.tenphong }}</h1>
+            <div class="text-gray-600 text-sm leading-relaxed">
+                {{ room.khachsankhachsan.tenkhachsan }}<br>
+                {{ room.khachsankhachsan.diachi }}
+            </div>
+
+            <!-- Nút X ở góc phải trên -->
+            <a href="{% url 'rooms:room_list' %}" 
+            class="absolute top-6 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold cursor-pointer border border-gray-400 rounded-xl w-10 h-10 flex items-center justify-center"
+            aria-label="Close">
+                <i class="fas fa-times"></i>
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex flex-col lg:flex-row min-h-screen">
+            <!-- Left Panel -->
+            <div class="flex-1 lg:flex-[2] py-6">
+                <!-- Image Gallery -->
+                <div class="w-full relative rounded overflow-hidden mb-8" style="padding-bottom: 56.25%;">
+                    {% if room.images and room.images.0.urlhinhanh %}
+                        <img src="{{ room.images.0.urlhinhanh }}" alt="Ảnh phòng" class="absolute top-0 left-0 w-full h-full object-cover">
+                    {% else %}
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-200 text-gray-500">
+                            Không có ảnh
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Room Details -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Chi tiết phòng</h2>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        {{ room.description|default:"Phòng rộng rãi với giường cỡ lớn, tầm nhìn ra thành phố và các tiện nghi hiện đại." }}
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="text-center">
+                            <div class="text-xs text-gray-500 uppercase tracking-wide mb-1">Số giường</div>
+                            <div class="text-base font-semibold text-gray-900">{{ room.sogiuong }} giường</div>
+                        </div>
+
+                        <!-- Thêm thông tin cố định -->
+                        <div class="text-center">
+                            <div class="text-xs text-gray-500 uppercase tracking-wide mb-1">Diện tích</div>
+                            <div class="text-base font-semibold text-gray-900">35 m²</div>
+                        </div>
+
+                        <div class="text-center">
+                            <div class="text-xs text-gray-500 uppercase tracking-wide mb-1">Tiện nghi</div>
+                            <div class="text-base font-semibold text-gray-900">Wi-Fi, TV, Máy lạnh</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Hotel Policies -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Chính sách khách sạn</h2>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div><span class="font-medium text-gray-900">Check-in: 2:00 PM</span></div>
+                        <div><span class="font-medium text-gray-900">Check-out: 12:00 PM</span></div>
+                        <div><span class="font-medium text-gray-900">Hủy đặt phòng: Trong vòng 24h sau khi thanh toán</span></div>
+                        <div><span class="font-medium text-gray-900">Trẻ em: Mọi lứa tuổi</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="flex-1 bg-gray-50 p-6 border-l border-gray-200">
+                <!-- Price Display -->
+                <div class="text-right mb-6">
+                    <div class="text-3xl font-bold text-gray-900">{{ room.gia|floatformat:0|intcomma }}đ / đêm</div>
+                </div>
+
+                <!-- Booking Form -->
+                <form class="bg-white rounded-lg p-5 shadow-sm border border-gray-200" method="post" action="{% url 'bookings:payment' room_id=room.phong_id %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-5">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Chọn ngày</label>
+                        <input type="text" 
+                               id="checkin_date" 
+                               name="checkin_date" 
+                               class="w-full px-3 py-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                               placeholder="Check-in date" 
+                               value="{{ checkin_date|date:'Y-m-d' }}"
+                               required>
+                    </div>
+                    <div class="mb-5">
+                        <input type="text" 
+                               id="checkout_date" 
+                               name="checkout_date" 
+                               class="w-full px-3 py-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                               placeholder="Check-out date" 
+                               value="{{ checkout_date|date:'Y-m-d' }}"
+                               required>
+                    </div>
+
+                    <!-- Price Breakdown -->
+                    <div class="py-4 border-t border-b border-gray-200 mb-5">
+                        <h3 class="text-sm font-semibold text-gray-700 mb-3">Chi tiết giá</h3>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Tổng tiền </span>
+                            <span class="text-gray-900" id="room_rate_display">{{ room_rate|floatformat:0|intcomma }} đ</span>
+                        </div>
+                        {% comment %} <div class="flex justify-between">
+                            <span class="text-gray-600">Thuế & phí (10%)</span>
+                            <span class="text-gray-900" id="tax_display">{{ taxes|floatformat:0|intcomma }} đ</span>
+                        </div> {% endcomment %}
+                        <div class="flex justify-between pt-3 border-gray-200 font-semibold text-base">
+                            <span class="text-gray-900">Thanh toán trước (30%)</span>
+                            <span class="text-gray-900" id="total_display">{{ total|floatformat:0|intcomma }} đ</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" 
+                            class="w-full px-4 py-3 bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Đặt phòng
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 text-gray-300 py-8 font-sans">
+        <div class="container mx-auto px-16">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start space-y-6 md:space-y-0">
+            
+            <!-- About -->
+            <div class="md:w-1/3">
+                <h3 class="text-xl font-semibold mb-4 text-white">Bokin</h3>
+                <p class="text-gray-400 text-sm">
+                Địa chỉ: Nhổn, Bắc Từ Liêm, Hà Nội<br>
+                Email: info@congtydangcapvutru.com
+                </p>
+            </div>
+            
+            <!-- Quick Links -->
+            <div class="md:w-1/3">
+                <h3 class="text-xl font-semibold mb-4 text-white">Liên kết nhanh</h3>
+                <ul class="text-sm">
+                <li><a href="#" class="hover:text-white transition-colors duration-300">Giới thiệu</a></li>
+                <li><a href="#" class="hover:text-white transition-colors duration-300">Dịch vụ</a></li>
+                <li><a href="#" class="hover:text-white transition-colors duration-300">Liên hệ</a></li>
+                </ul>
+            </div>
+
+            <!-- Social Media -->
+            <div class="md:w-1/3">
+                <h3 class="text-xl font-semibold mb-4 text-white">Kết nối với chúng tôi</h3>
+                <div class="flex space-x-4 text-gray-400">
+                <a href="#" aria-label="Facebook" class="hover:text-white transition-colors duration-300">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M22 12a10 10 0 10-11.5 9.8v-6.9h-3v-2.9h3v-2.2c0-3 1.8-4.6 4.5-4.6 1.3 0 2.6.2 2.6.2v2.9h-1.5c-1.5 0-2 1-2 2v2.3h3.4l-.5 2.9h-2.9v6.9A10 10 0 0022 12z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Twitter" class="hover:text-white transition-colors duration-300">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M23 3a10.9 10.9 0 01-3.14.86A4.48 4.48 0 0022.4.36a9.06 9.06 0 01-2.88 1.1A4.52 4.52 0 0016.17 0c-2.5 0-4.5 2-4.5 4.5 0 .35.04.7.1 1.03A12.81 12.81 0 013 1.64 4.48 4.48 0 002.1 4.8a4.48 4.48 0 002 3.75 4.49 4.49 0 01-2.03-.56v.05c0 2.18 1.55 4 3.6 4.41a4.52 4.52 0 01-2.02.07 4.52 4.52 0 004.21 3.12A9.05 9.05 0 012 18.54a12.83 12.83 0 006.92 2.02c8.3 0 12.85-6.87 12.85-12.84 0-.2 0-.42-.02-.63A9.18 9.18 0 0023 3z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Instagram" class="hover:text-white transition-colors duration-300">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M7 2C4.79 2 3 3.79 3 6v12c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4V6c0-2.21-1.79-4-4-4H7zm5 3a4 4 0 110 8 4 4 0 010-8zm5.5-1a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM12 8a4 4 0 100 8 4 4 0 000-8z"/>
+                    </svg>
+                </a>
+                </div>
+            </div>
+
+            </div>
+
+            <div class="mt-8 text-center text-gray-500 text-sm">
+            &copy; 2025 Công ty Bokin for king. Bảo lưu mọi quyền.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(function() {
+            const giaMoiDem = {{ room.gia|floatformat:0 }};
+
+            function updatePrice() {
+                const checkin = $("#checkin_date").datepicker("getDate");
+                const checkout = $("#checkout_date").datepicker("getDate");
+
+                if (checkin && checkout && checkout > checkin) {
+                    const diffTime = Math.abs(checkout - checkin);
+                    const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    const roomRate = giaMoiDem * nights;
+                    const total = roomRate * 0.3;
+
+                    $("#room_rate_display").text(roomRate.toLocaleString("vi-VN") + " đ");
+                    $("#total_display").text(total.toLocaleString("vi-VN") + " đ");
+                }
+            }
+
+            // Khởi tạo datepicker cho checkin
+            $("#checkin_date").datepicker({
+                dateFormat: "yy-mm-dd",
+                minDate: 0,
+                onSelect: function(selectedDate) {
+                    const minDate = new Date(selectedDate);
+                    minDate.setDate(minDate.getDate() + 1);
+                    $("#checkout_date").datepicker("option", "minDate", minDate);
+                    updatePrice();
+                }
+            });
+
+            // Khởi tạo datepicker cho checkout
+            $("#checkout_date").datepicker({
+                dateFormat: "yy-mm-dd",
+                minDate: 1,
+                onSelect: function() {
+                    updatePrice();
+                }
+            });
+
+            // Gọi lúc load nếu ngày đã có sẵn
+            updatePrice();
+        });
+
+               const avatarBtn = document.getElementById('avatarBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        if (avatarBtn && dropdownMenu) {
+            avatarBtn.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('hidden');
+            });
+
+            // Ẩn dropdown khi click ngoài
+            document.addEventListener('click', (e) => {
+            if (!avatarBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+            });
+        }
+    </script>
+</body>
+</html>
