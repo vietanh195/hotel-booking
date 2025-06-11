@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang quản trị</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+    <body class="bg-gray-100">
+            <!-- Header -->
+        <header class="bg-gray-900 mb-4 flex items-center justify-between px-16 py-5">
+            <a href="{% url 'rooms:room_list' %}" class="text-2xl font-bold text-white">Trang quản trị</a>
+
+            <!-- Right -->
+            <div class="relative">
+                {% if is_logged_in %}
+                <!-- Avatar button -->
+                <button id="avatarBtn" class="w-10 h-10 rounded-full border border-gray-600 overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-200 hover:bg-gray-700">
+                <i class="fas fa-user"></i>
+                </button>
+
+                <!-- Dropdown menu -->
+                <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-50">
+                <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Đăng xuất</a>
+                </div>
+                {% else %}
+                <!-- Đăng nhập / Đăng ký -->
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="max-w-7xl mx-auto bg-gray-100 text-gray-800 px-16 py-4">
+            <form method="get" class="mb-6 left-6 space-x-4">
+                <label class="text-lg font-medium">Chọn bảng:</label>
+                <select name="model" onchange="this.form.submit()"
+                        class="appearance-none pl-4 pr-10 py-2 border border-gray-300 rounded-lg shadow-sm">
+                    {% for m in models %}
+                        <option value="{{ m }}" {% if m == model_name %}selected{% endif %}>
+                            {{ m|capfirst }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            <!-- Form thêm mới -->
+            <form method="post" action="{% url 'accounts:admin_dashboard' %}?model={{ model_name }}" class="mb-8 bg-white rounded-lg shadow">
+                {% csrf_token %}
+                <table class="w-full table-auto text-left border-collapse">
+                    <thead>
+                        <tr>
+                            {% if model_name == "diadiem" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">Địa điểm</th>
+                            {% elif model_name == "quanhuyen" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">Quận huyện</th>
+                                <th class="border px-3 py-2 bg-gray-200">ID Địa điểm</th>
+                            {% elif model_name == "khachsan" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">Khách sạn</th>
+                                <th class="border px-3 py-2 bg-gray-200">Mô tả</th>
+                                <th class="border px-3 py-2 bg-gray-200">Ngày thêm</th>
+                                <th class="border px-3 py-2 bg-gray-200">ID Quận huyện</th>
+                            {% elif model_name == "loaiphong" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">Phòng</th>
+                                <th class="border px-3 py-2 bg-gray-200">Số giường</th>
+                                <th class="border px-3 py-2 bg-gray-200">Giá</th>
+                                <th class="border px-3 py-2 bg-gray-200">Mô tả</th>
+                                <th class="border px-3 py-2 bg-gray-200">Ngày thêm</th>
+                                <th class="border px-3 py-2 bg-gray-200">ID Khách sạn</th>
+                            {% elif model_name == "hinhanh" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">URL Hình ảnh</th>
+                                <th class="border px-3 py-2 bg-gray-200">ID Phòng</th>
+                            {% elif model_name == "nguoidung" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">Tên</th>
+                                <th class="border px-3 py-2 bg-gray-200">Email</th>
+                                <th class="border px-3 py-2 bg-gray-200">Mật khẩu</th>
+                                <th class="border px-3 py-2 bg-gray-200">Điện thoại</th>
+                                <th class="border px-3 py-2 bg-gray-200">Vai trò</th>
+                                <th class="border px-3 py-2 bg-gray-200">Ngày tạo</th>
+                            {% else %}
+                                {% for f in fields %}
+                                    <th class="border px-3 py-2 bg-gray-200">{{ f|capfirst }}</th>
+                                {% endfor %}
+                            {% endif %}
+                            <th class="border px-3 py-2 bg-gray-200"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for f in fields %}
+                                {% if f != "ngaytaotk" %}
+                                    <td class="border px-3 py-2">
+                                        <input type="text" name="{{ f }}" class="w-full px-2 py-1 border rounded">
+                                    </td>
+                                {% else %}
+                                    <td class="border px-3 py-2 w-[120px]">
+                                        <span class="text-gray-500 italic block w-full">Tự động</span>
+                                    </td>
+                                {% endif %}
+                            {% endfor %}
+                            <td class="border px-3 py-2 text-center">
+                                <button type="submit"
+                                    class="px-4 py-1 bg-blue-700 text-white rounded hover:bg-blue-800">
+                                    Thêm
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <!-- Bảng dữ liệu -->
+            <div class="overflow-x-auto">
+                <table class="w-full table-auto text-left border-collapse bg-white rounded-lg shadow">
+                    <thead>
+                        <tr>
+                            {% if model_name == "diadiem" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">Địa điểm</th>
+                            {% elif model_name == "quanhuyen" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">Quận huyện</th>
+                                <th class="border px-3 py-2 bg-gray-200">ID Địa điểm</th>
+                            {% elif model_name == "khachsan" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">Khách sạn</th>
+                                <th class="border px-3 py-2 bg-gray-200">Mô tả</th>
+                                <th class="border px-3 py-2 bg-gray-200">Ngày thêm</th>
+                                <th class="border px-3 py-2 bg-gray-200">ID Quận huyện</th>
+                            {% elif model_name == "loaiphong" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">Tên phòng</th>
+                                <th class="border px-3 py-2 bg-gray-200">Số giường</th>
+                                <th class="border px-3 py-2 bg-gray-200">Giá</th>
+                                <th class="border px-3 py-2 bg-gray-200">Mô tả</th>
+                                <th class="border px-3 py-2 bg-gray-200">Ngày thêm</th>
+                                <th class="border px-3 py-2 bg-gray-200">ID Khách sạn</th>
+                            {% elif model_name == "dondatphong" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">Ngày đặt</th>
+                                <th class="border px-3 py-2 bg-gray-200">Ngày trả</th>
+                                <th class="border px-3 py-2 bg-gray-200">Tổng tiền</th>
+                                <th class="border px-3 py-2 bg-gray-200">Trạng thái</th>
+                                <th class="border px-3 py-2 bg-gray-200">Thời gian đặt</th>
+                                <th class="border px-3 py-2 bg-gray-200">ID Người dùng</th>
+                                <th class="border px-3 py-2 bg-gray-200">ID Phòng</th>
+                            {% elif model_name == "hinhanh" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">URL Hình ảnh</th>
+                                <th class="border px-3 py-2 bg-gray-200">ID Phòng</th>
+                            {% elif model_name == "nguoidung" %}
+                                <th class="border px-3 py-2 bg-gray-200">ID</th>
+                                <th class="border px-3 py-2 bg-gray-200">Tên</th>
+                                <th class="border px-3 py-2 bg-gray-200">Email</th>
+                                <th class="border px-3 py-2 bg-gray-200">Mật khẩu</th>
+                                <th class="border px-3 py-2 bg-gray-200">Điện thoại</th>
+                                <th class="border px-3 py-2 bg-gray-200">Vai trò</th>
+                                <th class="border px-3 py-2 bg-gray-200">Ngày tạo</th>
+                            {% else %}
+                                {% for f in fields %}
+                                    <th class="border px-3 py-2 bg-gray-200">{{ f|capfirst }}</th>
+                                {% endfor %}
+                            {% endif %}
+                            <th class="border px-3 py-2 bg-gray-200">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for obj in objects %}
+                        <tr class="border-t">
+                            <form method="post" action="{% url 'accounts:admin_dashboard' %}?model={{ model_name }}">
+                                {% csrf_token %}
+                                {% if model_name == "diadiem" %}
+                                    <td class="border px-3 py-2"><input name="diadiem_id" value="{{ obj.diadiem_id }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="tendiadiem" value="{{ obj.tendiadiem }}" class="w-full border rounded px-2 py-1"></td>
+                                {% elif model_name == "quanhuyen" %}
+                                    <td class="border px-3 py-2"><input name="quanhuyen_id" value="{{ obj.quanhuyen_id }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="tenquanhuyen" value="{{ obj.tenquanhuyen }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="diadiemdiadiem_id" value="{{ obj.diadiemdiadiem.diadiem_id }}" class="w-full border rounded px-2 py-1"></td>
+                                {% elif model_name == "khachsan" %}
+                                    <td class="border px-3 py-2"><input name="khachsan_id" value="{{ obj.khachsan_id }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="tenkhachsan" value="{{ obj.tenkhachsan }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="mota" value="{{ obj.mota }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="ngaythem" value="{{ obj.ngaythem }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="quanhuyenquanhuyen_id" value="{{ obj.quanhuyenquanhuyen.quanhuyen_id }}" class="w-full border rounded px-2 py-1"></td>
+                                {% elif model_name == "loaiphong" %}
+                                    <td class="border px-3 py-2"><input name="phong_id" value="{{ obj.phong_id }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="tenphong" value="{{ obj.tenphong }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="sogiuong" value="{{ obj.sogiuong }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="gia" value="{{ obj.gia }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="mota" value="{{ obj.mota }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="ngaythemphong" value="{{ obj.ngaythemphong }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="khachsankhachsan_id" value="{{ obj.khachsankhachsan.khachsan_id }}" class="w-full border rounded px-2 py-1"></td>
+                                {% elif model_name == "dondatphong" %}
+                                    <td class="border px-3 py-2"><input name="lichsu_id" value="{{ obj.lichsu_id }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="ngaydat" value="{{ obj.ngaydat }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="ngaytra" value="{{ obj.ngaytra }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="tongtien" value="{{ obj.tongtien }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="trangthai" value="{{ obj.trangthai }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="thoigiandat" value="{{ obj.thoigiandat }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="nguoidung_id" value="{{ obj.nguoidung.nguoidung_id }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="phongphong_id" value="{{ obj.phongphong.phong_id }}" class="w-full border rounded px-2 py-1"></td>
+                                {% elif model_name == "hinhanh" %}
+                                    <td class="border px-3 py-2"><input name="anh_id" value="{{ obj.anh_id }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="urlhinhanh" value="{{ obj.urlhinhanh }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="phongphong_id" value="{{ obj.phongphong.phong_id }}" class="w-full border rounded px-2 py-1"></td>
+                                {% elif model_name == "nguoidung" %}
+                                    <td class="border px-3 py-2"><input name="nguoidung_id" value="{{ obj.nguoidung_id }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="tennguoidung" value="{{ obj.tennguoidung }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="email" value="{{ obj.email }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="matkhau" value="{{ obj.matkhau }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="dienthoai" value="{{ obj.dienthoai }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="vaitro" value="{{ obj.vaitro }}" class="w-full border rounded px-2 py-1"></td>
+                                    <td class="border px-3 py-2"><input name="ngaytaotk" value="{{ obj.ngaytaotk }}" class="w-full border rounded px-2 py-1"></td>
+                                {% endif %}
+
+                                <td class="border px-3 py-2 flex items-center gap-2">
+                                    <input type="hidden" name="pk" value="{{ obj.pk }}">
+                                    <button type="submit" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Lưu</button>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="delete" value="{{ obj.pk }}">
+                                    <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600" onclick="return confirm('Xóa?')">Xóa</button>
+                                </td>
+                            </form>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+            // Simple dropdown toggle
+            document.addEventListener('DOMContentLoaded', () => {
+                const btn = document.getElementById('avatarBtn');
+                const menu = document.getElementById('dropdownMenu');
+    
+                if(btn && menu) {
+                    btn.addEventListener('click', () => {
+                        menu.classList.toggle('hidden');
+                    });
+                    // Optional: Click outside to close
+                    document.addEventListener('click', (e) => {
+                        if(!btn.contains(e.target) && !menu.contains(e.target)) {
+                            menu.classList.add('hidden');
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
