@@ -1,3 +1,4 @@
+import traceback
 from django.db import IntegrityError
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
@@ -12,6 +13,14 @@ import uuid
 
 from .models import Nguoidung
 from rooms.models import Loaiphong, Quanhuyen, Khachsan, Diadiem, Dondatphong, Hinhanh
+
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.urls import reverse
+from .models import Nguoidung
+import uuid
+from django.utils import timezone
 
 def signup_view(request):
     if request.method == 'POST':
@@ -46,7 +55,7 @@ def signup_view(request):
     return render(request, 'accounts/signup.html')
 
 
-from django.http import JsonResponse
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -63,14 +72,17 @@ def login_view(request):
             request.session['vaitro'] = user.vaitro
             request.session['is_logged_in'] = True
 
-            # Trả JSON thay vì redirect
+            # Redirect dựa trên vai trò
             if user.vaitro.strip().lower() == 'admin':
-                return JsonResponse({'redirect_url': reverse('accounts:admin_dashboard')})
+                return redirect('accounts:admin_dashboard')
             else:
-                return JsonResponse({'redirect_url': next_url or reverse('rooms:room_list')})
+                return redirect(next_url or reverse('rooms:room_list'))
 
         except Nguoidung.DoesNotExist:
-            return JsonResponse({'error': 'Email hoặc mật khẩu không đúng.'}, status=400)
+            messages.error(request, 'Email hoặc mật khẩu không đúng.')
+            return render(request, 'accounts/login.html', {
+                'next': next_url
+            })
 
     # Nếu GET request, vẫn trả về trang login bình thường
     return render(request, 'accounts/login.html', {
@@ -117,15 +129,13 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseBadRequest
 
-
-from django.apps import apps
-from django.contrib import messages
-from django.core.paginator import Paginator
+from django.db import models
 from django.db import IntegrityError
-from django.forms import ModelForm
-from django.http import HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.urls import reverse
+from django.forms import ModelForm
+from django.core.paginator import Paginator
 
 def admin_dashboard(request):
     # Model mapping
@@ -170,11 +180,13 @@ def admin_dashboard(request):
             obj = get_object_or_404(model_class, pk=pk)
             obj.delete()
             messages.success(request, "Xóa thành công.")
-        except IntegrityError:
-            messages.error(request, "Không thể xóa do bản ghi đang được sử dụng bởi dữ liệu khác.")
+        except IntegrityError as e:
+            messages.error(request, f"Không thể xóa do bản ghi đang được sử dụng bởi dữ liệu khác: {str(e)}")
         except model_class.DoesNotExist:
             messages.error(request, "Bản ghi không tồn tại.")
         except Exception as e:
+            print("Lỗi khi xóa:", e)  # In ra terminal
+            traceback.print_exc()
             messages.error(request, f"Lỗi khi xóa: {str(e)}")
         return redirect(reverse('accounts:admin_dashboard') + f'?model={model_key}')
 
@@ -194,6 +206,14 @@ def admin_dashboard(request):
                 if model_key == 'nguoidung' and 'matkhau' in form.cleaned_data:
                     from django.contrib.auth.hashers import make_password
                     instance.matkhau = make_password(form.cleaned_data['matkhau'])
+                # Xử lý khóa ngoại cho Dondatphong
+                if model_key == 'dondatphong':
+                    nguoidung_id = request.POST.get('nguoidung')
+                    phong_id = request.POST.get('phongphong')
+                    if nguoidung_id:
+                        instance.nguoidung = get_object_or_404(Nguoidung, nguoidung_id=nguoidung_id)
+                    if phong_id:
+                        instance.phongphong = get_object_or_404(Loaiphong, phong_id=phong_id)
                 instance.save()
                 messages.success(request, "Thêm/cập nhật thành công.")
                 return redirect(reverse('accounts:admin_dashboard') + f'?model={model_key}')

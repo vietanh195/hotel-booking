@@ -9,7 +9,6 @@ from django.db.models import Q, Prefetch
 from django.core.paginator import Paginator
 
 from .models import Loaiphong, Quanhuyen, Khachsan, Diadiem, Dondatphong, Hinhanh
-from bookings.models import ThanhToan
 from .forms import RoomFilterForm
 from accounts.models import Nguoidung
 
